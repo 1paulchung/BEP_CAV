@@ -89,23 +89,13 @@ end
 positions = [x;y];
 positions2 = transpose(positions);
 velocities = [x_vel;y_vel];
+disp(velocities)
 velocities2 = transpose(velocities);
 
 bep = birdsEyePlot('XLimits', [-1000, 1000], 'YLimits', [-500, 500]);
 detPlotter = detectionPlotter(bep);
 % Displays detections and their labels on a bird's-eye plot
-
-
-% Displays the very last plot... not sure how to plot each iteration
-for i = 1:21
-    xcoord = x(i)
-    ycoord = y(i)
-    positions3 = transpose([xcoord; ycoord])
-    xvel = x_vel(i)
-    yvel = y_vel(i)
-    velocities3 = transpose([xvel; yvel])
-    plotDetection(detPlotter, positions3, velocities3);
-end
+plotDetection(detPlotter, positions2, velocities2);
 
 
 
