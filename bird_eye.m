@@ -11,8 +11,9 @@
 bag = rosbag('test_2021-03-28-trial1.bag');
 % Line below views information about a rosbag log file
 % rosbag info 'test_2021-03-28-trial1.bag'
-% Topics: /synchronized_data (complicated) 
-% and /tracking_data (contains only timestamps)
+% Topics we want data from: 
+% /synchronized_data 
+% /tracking_data (contains only timestamps)
 
 bSel = select(bag,'Topic','/synchronized_data');
 msgStructs = readMessages(bSel,'DataFormat','struct');
@@ -40,17 +41,19 @@ for i = 1:1
     for j = 1:38
         % detection accesses the fields Dx, Dy, Vx, Vy
         detection = radarData.Detections(j);
-        detVector = zeros(1, 4);        
-        detVector(1) = detection.Dx;
-        x(end+1) = detection.Dx;
-        detVector(2) = detection.Dy;
-        y(end+1) = detection.Dy;
-        detVector(3) = detection.Vx;
-        x_vel(end+1) = detection.Vx;
-        detVector(4) = detection.Vy;
-        y_vel(end+1) = detection.Vy;
-        for m = 1:kRadarWeight
-            syncedData{end+1} = detVector;
+        if detection.FlagValid
+            detVector = zeros(1, 4);        
+            detVector(1) = detection.Dx;
+            x(end+1) = detection.Dx;
+            detVector(2) = detection.Dy;
+            y(end+1) = detection.Dy;
+            detVector(3) = detection.Vx;
+            x_vel(end+1) = detection.Vx;
+            detVector(4) = detection.Vy;
+            y_vel(end+1) = detection.Vy;
+            for m = 1:kRadarWeight
+                syncedData{end+1} = detVector;
+            end
         end
     end   
 end
@@ -95,9 +98,10 @@ bep = birdsEyePlot('XLimits', [-1000, 1000], 'YLimits', [-500, 500]);
 detPlotter = detectionPlotter(bep);
 % Displays detections and their labels on a bird's-eye plot
 
+plot(detVector)
 
 % Displays the very last plot... not sure how to plot each iteration
-for i = 1:21
+for i = 1:size(xcoord)
     xcoord = x(i)
     ycoord = y(i)
     positions3 = transpose([xcoord; ycoord])
@@ -106,6 +110,7 @@ for i = 1:21
     velocities3 = transpose([xvel; yvel])
     plotDetection(detPlotter, positions3, velocities3);
 end
+
 
 
 
