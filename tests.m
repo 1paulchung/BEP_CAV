@@ -67,12 +67,10 @@ for i = 1:size(syncedData,2)
     timestamps(i) = msgStructs2{i}.Timestamp;
 end
 
-% Bird's Eye Plotting in real time
+
 bep = birdsEyePlot('XLimits', [-1000, 1000], 'YLimits', [-500, 500]);
 detPlotter = detectionPlotter(bep);
 
-% Regular speed is .1 sec and twice as fast is .05 sec and so on
-playback = .1;
 % To parse data from syncedData
 % Max of for loop is the number of vectors within syncedData
 for i = 1:size(syncedData,2)
@@ -80,11 +78,8 @@ for i = 1:size(syncedData,2)
     position = [sensorData(1) sensorData(2)];
     velocity = [sensorData(3) sensorData(4)];
     plotDetection(detPlotter, position, velocity);
-    pause(playback)
+    pause(0.1)
 end
-
-%url = 'https://www.youtube.com/watch?v=5qap5aO4i9A'
-%web(url)
 
 
 

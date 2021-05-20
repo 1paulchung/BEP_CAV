@@ -44,13 +44,13 @@ for i = 1:1
         if detection.FlagValid
             detVector = zeros(1, 4);        
             detVector(1) = detection.Dx;
-            x(end+1) = detection.Dx;
+            %x(end+1) = detection.Dx;
             detVector(2) = detection.Dy;
-            y(end+1) = detection.Dy;
+            %y(end+1) = detection.Dy;
             detVector(3) = detection.Vx;
-            x_vel(end+1) = detection.Vx;
+            %x_vel(end+1) = detection.Vx;
             detVector(4) = detection.Vy;
-            y_vel(end+1) = detection.Vy;
+            %y_vel(end+1) = detection.Vy;
             for m = 1:kRadarWeight
                 syncedData{end+1} = detVector;
             end
@@ -86,7 +86,24 @@ for i = 1:size(syncedData,2)
 end
 
 
+bep = birdsEyePlot('XLimits', [-1000, 1000], 'YLimits', [-500, 500]);
+detPlotter = detectionPlotter(bep);
 
+
+% Dimension's first element is syncedData # of rows and second
+% element is # of columns
+dimensions = size(syncedData);
+% To parse data from syncedData
+% Max of for loop is the number of vectors within syncedData
+for i = 1:dimensions(2)
+    sensorData = syncedData{i};
+    x = sensorData(1);
+    y = sensorData(2);
+    x_vel = sensorData(3);
+    y_vel = sensorData(4);
+    plotDetection(detPlotter, transpose([x;y]), transpose([x_vel;y_vel]))
+    pause(.1)
+end
 
 % Test to see if iteration went well
 positions = [x;y];
@@ -94,22 +111,21 @@ positions2 = transpose(positions);
 velocities = [x_vel;y_vel];
 velocities2 = transpose(velocities);
 
-bep = birdsEyePlot('XLimits', [-1000, 1000], 'YLimits', [-500, 500]);
-detPlotter = detectionPlotter(bep);
+
 % Displays detections and their labels on a bird's-eye plot
 
-plot(detVector)
+%plot(detVector)
 
 % Displays the very last plot... not sure how to plot each iteration
-for i = 1:size(xcoord)
-    xcoord = x(i)
-    ycoord = y(i)
-    positions3 = transpose([xcoord; ycoord])
-    xvel = x_vel(i)
-    yvel = y_vel(i)
-    velocities3 = transpose([xvel; yvel])
-    plotDetection(detPlotter, positions3, velocities3);
-end
+%for i = 1:size(xcoord)
+    %xcoord = x(i)
+    %ycoord = y(i)
+    %positions3 = transpose([xcoord; ycoord])
+    %xvel = x_vel(i)
+    %yvel = y_vel(i)
+    %velocities3 = transpose([xvel; yvel])
+    %plotDetection(detPlotter, positions3, velocities3);
+%end
 
 
 
