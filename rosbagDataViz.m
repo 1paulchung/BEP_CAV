@@ -1,8 +1,12 @@
 % Parse rosbag and store information into syncedData, 
 % which contains information from radar detections. 
+% SyncedData is visualized using MATLAB's Bird's-Eye Plotting. 
+% This implementation is incorrect. 
 
 % Change the name to desired bag
-bag = rosbag('test_2021-03-28-trial1.bag');
+testname = 'A25-2021-5-23.bag';
+
+bag = rosbag(testname);
 % Line below views information about a rosbag log file
 % rosbag info 'test_2021-03-28-trial1.bag'
 % Topics we want data from: 
@@ -68,11 +72,11 @@ for i = 1:size(syncedData,2)
 end
 
 % Bird's Eye Plotting in real time
-bep = birdsEyePlot('XLimits', [-1000, 1000], 'YLimits', [-500, 500]);
+bep = birdsEyePlot('XLimits', [-500, 500], 'YLimits', [-500, 500]);
 detPlotter = detectionPlotter(bep);
 
 % Regular speed is .1 sec and twice as fast is .05 sec and so on
-playback = .1;
+playback = 0.1;
 % To parse data from syncedData
 % Max of for loop is the number of vectors within syncedData
 for i = 1:size(syncedData,2)
@@ -82,6 +86,9 @@ for i = 1:size(syncedData,2)
     plotDetection(detPlotter, position, velocity);
     pause(playback)
 end
+
+
+
 
 %url = 'https://www.youtube.com/watch?v=5qap5aO4i9A'
 %web(url)
