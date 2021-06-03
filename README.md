@@ -11,4 +11,5 @@ Detailed documentation on SyncedData:
 Example of how to parse SyncedData into actual detection vectors: 
 - https://github.com/UWEcoCAR/CAV_Main/blob/main/catkin_ws/src/mot_node/src/mot_node.cpp
 
-<a href="https://imgflip.com/gif/5bwt90"><img src="https://imgflip.com/gif/5bwt90.gif" title="made at imgflip.com"/></a> 
+
+![5bwtzm](https://user-images.githubusercontent.com/72935428/120573020-c83db300-c3d1-11eb-9706-8aaef4292e47.gif)
