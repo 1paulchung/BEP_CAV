@@ -1,4 +1,4 @@
-% Parses rosbag data and plots out the detections from the front radar. 
+% Parses rosbag data and plots out the detections from the camera detections. 
 % Link to the videos of the trials from 5/23/21
 % https://drive.google.com/drive/u/0/folders/1-XZBVAryCgdyee2YG5mZtXdyyugeyW8p
 
@@ -10,10 +10,12 @@ bag = rosbag(testname);
 bSel = select(bag,'Topic','/cam_det_data');
 msgStructs = readMessages(bSel,'DataFormat','struct');
 
-syncedData = {};
+% msgStructs only has one column and rows dependent on rosbag
+% Label it as columns for synchedData
+columns = size(msgStructs, 1);
 
-% Line below checks to see if the Track contains data in it or not
-% disp(size(struct{i}.Tracks), 2)
+% Preallocate space for cell array
+synchedData = cell(1, columns);
 
 for i = 1:size(msgStructs)
         % Detection is a 3 x 1 cell array with 'MessageType', 'Tracks', and
@@ -23,6 +25,7 @@ for i = 1:size(msgStructs)
         % 'TrackId', 'Dx', 'Vx', 'Dy', and 'Vy'
         % len checks to see if Tracks has information in it
         len = size(struct.Tracks, 2);
+        detVector = zeros(1,4);
         if len > 0
             % detVector holds the [Dx, Dy, Vx, Vy] information 
             detVector(1) = struct.Tracks.Dx;
@@ -35,7 +38,7 @@ for i = 1:size(msgStructs)
             detVector(3) = 0;
             detVector(4) = 0;
         end
-        syncedData{end+1} = detVector;
+        synchedData{i} = detVector;
 end
 
 % Bird's Eye Plotting in real time
@@ -46,8 +49,8 @@ detPlotter = detectionPlotter(bep);
 playback = 0.1;
 % To parse data from syncedData
 % Max of for loop is the number of vectors within syncedData
-for i = 1:size(syncedData,2)
-    sensorData = syncedData{i};
+for i = 1:size(synchedData,2)
+    sensorData = synchedData{i};
     position = [sensorData(1) sensorData(2)];
     velocity = [sensorData(3) sensorData(4)];
     plotDetection(detPlotter, position, velocity);
