@@ -10,3 +10,8 @@ Detailed documentation on SyncedData:
 
 Example of how to parse SyncedData into actual detection vectors: 
 - https://github.com/UWEcoCAR/CAV_Main/blob/main/catkin_ws/src/mot_node/src/mot_node.cpp
+
+
+<iframe src='https://gfycat.com/ifr/SilentLastingIvorybilledwoodpecker' frameborder='0' scrolling='no' allowfullscreen width='640' height='373'></iframe>
+
+<div style='position:relative; padding-bottom:calc(51.46% + 44px)'><iframe src='https://gfycat.com/ifr/SilentLastingIvorybilledwoodpecker' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen></iframe></div> 
