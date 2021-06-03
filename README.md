@@ -8,7 +8,7 @@ Thus, I rather parse data from /cam_det_data, which only includes the vehicle's 
 
 ![Hnet-image (2)](https://user-images.githubusercontent.com/72935428/120573928-3afb5e00-c3d3-11eb-8811-cd626b1fc757.gif)
 
-In future projects, I plan to implement real-time plotting for the vehicle's other radars. 
+In future projects, I plan to implement real-time plotting for the vehicle's four radars. 
 
 
 
