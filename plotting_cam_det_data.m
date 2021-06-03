@@ -1,4 +1,5 @@
-% Parses rosbag data and plots out the detections from the camera detections. 
+% Parses rosbag data and plots out the detections from the vehicle's
+% camera.
 % Link to the videos of the trials from 5/23/21
 % https://drive.google.com/drive/u/0/folders/1-XZBVAryCgdyee2YG5mZtXdyyugeyW8p
 
