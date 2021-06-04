@@ -1,4 +1,4 @@
-# BEP_CAV
+# Data Visualization of Rosbags
 
 This repo is for my research project. I am creating a real-time bird's-eye plot of rosbags from vehicle testing. Rosbags include sensor data and sensor fusion results. Another research team collects the rosbags from real-world tests (i.e. Vehicle travels 25 m/s 10 m behind a car going 25 m/s). I parse /synchronized_data, which includes four radars (front, right, left , rear) and one camera, from the rosbags then visualize the data in real time. However, parsing /synchronized_data proves uneffecive because there is a lot of "garbage" data that results in scattered and repeated data. Each detection is displayed every 100 ms and is composed of two parts- a circle and a line. A single circle represents the x-position and y-position and the line represents the x-velocity and y-velocity.   
 
