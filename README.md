@@ -8,9 +8,11 @@ Thus, I rather parse data from /cam_det_data, which only includes the vehicle's 
 
 ![Hnet-image (2)](https://user-images.githubusercontent.com/72935428/120573928-3afb5e00-c3d3-11eb-8811-cd626b1fc757.gif)
 
-In future projects, I plan to implement real-time plotting for the vehicle's four radars. 
+Once I was able to parse one data type, I compiled all the desired data types- /cam_det_data, /tracking_data, and /front_det_data. 
 
-I implemented the option to play different types of detections, playback speed, and bird's-eye plot dimensions. 
+![plotting cam, tracking, and front as GIF](https://user-images.githubusercontent.com/72935428/120874138-036aee00-c55a-11eb-8c96-ff15cb52cd07.gif)
+
+The /front_det_data detections are not very good due to difficulties configuring the front radar on the vehicle. Thus, in instances where one wants different settings, I implemented the option to play different types of detections, playback speed, and bird's-eye plot dimensions. 
 ![image](https://user-images.githubusercontent.com/72935428/120873993-4ed0cc80-c559-11eb-8351-2aa6bfece8aa.png)
 
 
