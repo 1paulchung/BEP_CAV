@@ -1,6 +1,19 @@
 % Parses rosbag data and plots /tracking_data, /cam_det_data, and
 % /front_det_data. 
 
+% Settings:
+% Choose to play /tracking_data, /cam_det_data, and /front_det_data
+play_tracking_data = true;
+play_cam_det_data = true;
+play_front_det_data = true;
+% Regular speed is .1 sec and twice as fast is .05 sec and so on
+playback = 0.1;
+% Determines the dimensions for the bird's-eye plot
+xmin = -5;
+xmax = 140;
+ymin = -15;
+ymax = 15;
+
 % Change the name to desired bag
 testname = 'B25-2021-5-23_processed.bag';
 
@@ -113,17 +126,15 @@ end
 
 
 % Bird's Eye Plotting in real time
-bep = birdsEyePlot('XLimits', [-5, 140], 'YLimits', [-15, 15]);
+bep = birdsEyePlot('XLimits', [xmin, xmax], 'YLimits', [ymin, ymax]);
 
 detPlotter = detectionPlotter(bep, 'DisplayName', 'Tracking Data', 'MarkerFaceColor', 'b');
 detPlotter2 = detectionPlotter(bep, 'DisplayName', 'Camera Data', 'MarkerFaceColor', 'r');
-detPlotter3 = detectionPlotter(bep, 'DisplayName', 'Front Data', 'MarkerFaceColor', 'g');
+detPlotter3 = detectionPlotter(bep, 'DisplayName', 'Front Radar Data', 'MarkerFaceColor', 'g');
 
-% Regular speed is .1 sec and twice as fast is .05 sec and so on
-playback = 0.1;
 % To parse data from syncedData
-% Max of for loop is the number of vectors within syncedData
-for i = 1:size(trackingData,2)
+% Max of for loop is the number of vectors within synchedData
+for i = 1:size(msgStructs)
     % Collecting tracking data to plot
     t_data = trackingData{i};
     position_tracking = [t_data(1) t_data(2)];
@@ -136,10 +147,16 @@ for i = 1:size(trackingData,2)
     front_data = frontData{i};
     position_front = [front_data(1) front_data(2)];
     velocity_front = [front_data(3) front_data(4)];
-    % Plots all detections on one graph
-    plotDetection(detPlotter, position_tracking, velocity_tracking);
-    plotDetection(detPlotter2, position_cam, velocity_cam);
-    plotDetection(detPlotter3, position_front, velocity_front);
+    % Plots detections on one plot
+    if play_tracking_data
+        plotDetection(detPlotter, position_tracking, velocity_tracking);
+    end
+    if play_cam_det_data
+        plotDetection(detPlotter2, position_cam, velocity_cam);
+    end
+    if play_front_det_data
+        plotDetection(detPlotter3, position_front, velocity_front);
+    end
     pause(playback)
 end
 
