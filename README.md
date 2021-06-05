@@ -10,5 +10,8 @@ Thus, I rather parse data from /cam_det_data, which only includes the vehicle's 
 
 In future projects, I plan to implement real-time plotting for the vehicle's four radars. 
 
+I implemented the option to play different types of detections, playback speed, and bird's-eye plot dimensions. 
+![image](https://user-images.githubusercontent.com/72935428/120873993-4ed0cc80-c559-11eb-8351-2aa6bfece8aa.png)
+
 
 
