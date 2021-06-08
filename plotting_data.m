@@ -2,7 +2,7 @@
 % /front_det_data. 
 
 % Settings:
-% Choose to play /tracking_data, /cam_det_data, and /front_det_data
+% Choose to which detections to play
 play_tracking_data = true;
 play_cam_det_data = true;
 play_front_det_data = true;
@@ -13,6 +13,9 @@ xmin = -5;
 xmax = 140;
 ymin = -15;
 ymax = 15;
+
+% Change name to desired MP4 to play
+vid_name = 'B25-2021-5-23.mp4';
 
 % Change the name to desired bag
 testname = 'B25-2021-5-23_processed.bag';
@@ -74,7 +77,7 @@ for i = 1:size(msgStructs2)
         len = size(struct.Tracks, 2);
         cameraDet = zeros(1,4);
         if len > 0
-            % detVector holds the [Dx, Dy, Vx, Vy] information 
+            % cameraDet holds the [Dx, Dy, Vx, Vy] information 
             cameraDet(1) = struct.Tracks.Dx;
             cameraDet(2) = struct.Tracks.Dy;
             cameraDet(3) = struct.Tracks.Vx;
@@ -110,7 +113,7 @@ for i = 1:size(msgStructs3)
         len = size(struct.Tracks, 2);
         frontDet = zeros(1,4);
         if len > 0
-            % detVector holds the [Dx, Dy, Vx, Vy] information 
+            % frontDet holds the [Dx, Dy, Vx, Vy] information 
             frontDet(1) = struct.Tracks.Dx;
             frontDet(2) = struct.Tracks.Dy;
             frontDet(3) = struct.Tracks.Vx;
@@ -132,8 +135,24 @@ detPlotter = detectionPlotter(bep, 'DisplayName', 'Tracking Data', 'MarkerFaceCo
 detPlotter2 = detectionPlotter(bep, 'DisplayName', 'Camera Data', 'MarkerFaceColor', 'r');
 detPlotter3 = detectionPlotter(bep, 'DisplayName', 'Front Radar Data', 'MarkerFaceColor', 'g');
 
-% To parse data from syncedData
-% Max of for loop is the number of vectors within synchedData
+% Play video side by side with BEP
+% handle = implay(vid_name);
+% handle.Parent.Position = [100 100 700 550];
+% h = findall(0, 'tag', 'spcui_scope_framework');
+% set(h, 'position', [150 150 700 550]);
+% play(handle.DataSource.Controls);
+
+% Using VideoReader to get frames
+vid = VideoReader(vid_name);
+numFrames = ceil(vid.FrameRate * vid.Duration);
+frameInterval = ceil(numFrames / size(msgStructs, 1));
+vid.currentTime = 0;
+
+% Create a new figure for video
+figure;
+ax = axes;
+
+% Plots data from parsed data
 for i = 1:size(msgStructs)
     % Collecting tracking data to plot
     t_data = trackingData{i};
@@ -156,6 +175,14 @@ for i = 1:size(msgStructs)
     end
     if play_front_det_data
         plotDetection(detPlotter3, position_front, velocity_front);
+    end
+    % Synchronize video with BEP
+    for j = 1:frameInterval
+        if vid.hasFrame()
+            temp = vid.readFrame();
+            imshow(temp,'Parent',ax);
+            % pause(1.0/vid.FrameRate);
+        end 
     end
     pause(playback)
 end
